@@ -3,9 +3,11 @@
 sudo git clone https://github.com/Rido-o/st.git /usr/src/st
 sudo git clone https://github.com/Rido-o/dmenu.git /usr/src/dmenu
 sudo git clone https://github.com/Rido-o/dwmblocks.git /usr/src/dwmblocks
-sudo git clone https://github.com/Rido-o/dwm.git /usr/src/dwm
+sudo git clone https://github.com/Rido-o/dwm-flexipatch.git /usr/src/dwm
+sudo git clone https://github.com/Rido-o/slock.git /usr/src/slock
 
 sudo make clean install -C /usr/src/st
 sudo make clean install -C /usr/src/dmenu
 sudo make clean install -C /usr/src/dwmblocks
-sudo make clean install -C /usr/src/dwm
+sudo make clean install -C /usr/src/dwm-flexipatch
+sudo maek clean install -C /usr/src/slock
