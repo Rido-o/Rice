@@ -8,7 +8,7 @@ sudo pacman -S git
 sudo pacman -S curl
 sudo pacman -S nvim
 sudo pacman -S python
-sudo pacman -S pip
+sudo pacman -S python-pip
 
 # Dependencies for coc and its extentsions
 sudo pacman -S nodejs
