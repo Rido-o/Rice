@@ -1,0 +1,87 @@
+#!/bin/sh
+
+# Errors
+	# bdstar failed to set default locale
+	# missing xauthority
+
+# Dot file install
+git clone --bare https://github.com/Rido-o/dotfiles.git $HOME/.cfg
+# enter github login details
+/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@ checkout
+/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@ config status.showUntrackedFiles no
+
+# Install support for man pages
+sudo pacman -S man-db man-pages texinfo
+
+# Install AUR helper
+sudo git clone https://aur.archlinux.org/yay.git /opt/yay
+sudo chown -R mrbones:users /opt/yay
+(cd /opt/yay && makepkg -si)
+
+# Install Xorg and other utilties
+sudo pacman -S xorg-xinit xorg xclip xdg-user-dirs
+xdg-user-dirs-update
+
+# Install Zsh
+sudo pacman -S zsh zsh-completions zsh-syntax-highlighting
+chsh -s /usr/bin/zsh
+
+# Install Nvim
+sudo pacman -S wget neovim python python-pip nodejs npm
+pip install pynvim black
+wget -xO $HOME/.local/share/nvim/site/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+nvim --headless +PlugInstall +qall
+# Open nvim to install coc extensions
+
+# Install font
+yay -S cozette-otb
+
+# Install audio and music player
+sudo pacman -S alsa-utils pulseaudio pulseaudio-alsa pamixer pulsemixer
+sudo pacman -S mpd mpc ncmpcpp
+
+# Install cover art support for ncmpcpp
+sudo pip install ueberzug
+git clone https://github.com/alnj/ncmpcpp-ueberzug.git $HOME/.config/ncmpcpp/ncmpcpp-ueberzug
+chmod +x $HOME/.config/ncmpcpp/ncmpcpp-ueberzug/ncmpcpp-ueberzug $HOME/.config/ncmpcpp/ncmpcpp-ueberzug/ncmpcpp_cover_art.sh
+# Manually change ncmpcpp-ueberzug settings
+
+# Install slock dependency
+sudo pacman -S imlib2
+
+# Install my builds of suckless software
+sudo git clone https://github.com/Rido-o/st.git /usr/src/st
+sudo git clone https://github.com/Rido-o/dmenu.git /usr/src/dmenu
+sudo git clone https://github.com/Rido-o/dwmblocks.git /usr/src/dwmblocks
+sudo git clone https://github.com/Rido-o/dwm-flexipatch.git /usr/src/dwm-flexipatch
+sudo git clone https://github.com/Rido-o/slock.git /usr/src/slock
+sudo make clean install -C /usr/src/st
+sudo make clean install -C /usr/src/dmenu
+sudo make clean install -C /usr/src/dwmblocks
+sudo make clean install -C /usr/src/dwm-flexipatch
+sudo make clean install -C /usr/src/slock
+
+# Install dwm statusbar dependencies
+sudo pacman -S curl ffmpeg dunst network-manager-applet
+yay -S gotop-bin networkmanager-dmenu-git
+
+# Install slock autolock script dependencies
+sudo pacman -S fortune-mod cowsay xautolock
+
+# Installing browser
+yay -S qutebrowser-git python-adblock
+wget -P ~/.config/qutebrowser/greasemonkey https://www.4chan-x.net/builds/4chan-X.user.js
+wget -P ~/.config/qutebrowser/greasemonkey https://raw.githubusercontent.com/KevinParnell/OneeChan/master/builds/OneeChan.user.js
+# Import 4chanX and OneeChan settings manually
+
+# Installing bitwarden
+yay -S bitwarden-bin bitwarden-cli
+pip install tldextract
+# Manually altar qute-bitwarden script
+# Manually login to bw with bw login
+
+# Installing misc
+sudo pacman -S nnn zathura mupdf zathura-pdf-mupdf sxiv nitrogen newsboat picom mpv
+
+# Remove uneeded files
+rm .bash_history .bash_profile .bash_logout .bashrc
